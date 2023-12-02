@@ -17,7 +17,7 @@ class Database:
         return rows
 
     def search(self, parts="", customer="", retailer="", price=""):
-        self.cur.execute("SELECT * FROM parts WHERE title=? OR author=? OR year=? OR isbn=?", (parts, customer, retailer, price))
+        self.cur.execute("SELECT * FROM parts WHERE part=?, customer = ?, retailer =?, price=?", (parts, customer, retailer, price))
         rows = self.cur.fetchall()
         return rows
 
@@ -26,7 +26,7 @@ class Database:
         self.conn.commit()
 
     def update(self, id, part, customer, retailer, price):
-        self.cur.execute("UPDATE parts SET title=?, author=?, year=?, isbn=? WHERE id=?", (part, customer, retailer, price, id))
+        self.cur.execute("UPDATE parts SET part=?, customer = ?, retailer =?, price=?, WHERE id=?", (part, customer, retailer, price, id))
         self.conn.commit()
 
     def __del__(self):
