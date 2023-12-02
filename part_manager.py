@@ -1,11 +1,11 @@
 from tkinter import *
 from db import Database
-
+from tkinter import messagebox
 db = Database('store.db')
 
 app = Tk()
 app.title("Part Manager")
-app.geometry('700x350+200+200') #change the size of the window here
+app.geometry('700x450+200+200') #change the size of the window here
 
 # Part
 
@@ -67,19 +67,26 @@ scrollbar.configure(command=parts_list.yview)
 
 #functionsfiur
 def populate_list():
+    parts_list.delete(0, END)
     for row in db.view():
         parts_list.insert(END, row)
     
 
 def add_item():
-    parts_list.insert(END, part_text.get(), customer_text.get(), retailer_text.get(), price_text.get())
+    if part_text.get() == '' or customer_text.get() == '' or retailer_text.get() == '' or price_text.get() == '':
+        messagebox.showerror('Required Fields', 'Please include all fields')
+        return
+    db.insert(part_text.get(), customer_text.get(), retailer_text.get(), price_text.get())
+    parts_list.delete(0, END)
+    parts_list.insert(END, (part_text.get(), customer_text.get(), retailer_text.get(), price_text.get()))
+    populate_list()
 
 def remove_item():
     parts_list.delete(ACTIVE)
 
 def update_item():
     parts_list.delete(ACTIVE)
-    parts_list.insert(END, part_text.get(), customer_text.get(), retailer_text.get(), price_text.get())
+    # db.update(selected_item[0], part_text.get(), customer_text.get(), retailer_text.get(), price_text.get())
 
 def clear_text():
     part_entry.delete(0, END)
