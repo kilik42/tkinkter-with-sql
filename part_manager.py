@@ -29,16 +29,12 @@ retailer_label.grid(row=1, column=0, sticky=W)
 retailer_entry = Entry(app, textvariable=retailer_text)
 retailer_entry.grid(row=1, column=1)
 
-
-
 # Price
 price_text = StringVar()
 price_label = Label(app, text='Price', font=('bold', 14), pady=20)
 price_label.grid(row=1, column=2, sticky=W)
 price_entry = Entry(app, textvariable=price_text)
 price_entry.grid(row=1, column=3)
-
-#populate data
 
 # Parts List (Listbox)
 parts_list = Listbox(app, height=8, width=50, border=0)
