@@ -63,7 +63,21 @@ parts_list.configure(yscrollcommand=scrollbar.set)
 scrollbar.configure(command=parts_list.yview)
 
 
-
+def select_item(event):
+    try:
+        global selected_item
+        index = parts_list.curselection()[0]
+        selected_item = parts_list.get(index)
+        part_entry.delete(0, END)
+        part_entry.insert(END, selected_item[1])
+        customer_entry.delete(0, END)
+        customer_entry.insert(END, selected_item[2])
+        retailer_entry.delete(0, END)
+        retailer_entry.insert(END, selected_item[3])
+        price_entry.delete(0, END)
+        price_entry.insert(END, selected_item[4])
+    except IndexError:
+        pass
 
 #functionsfiur
 def populate_list():
@@ -83,6 +97,7 @@ def add_item():
 
 def remove_item():
     parts_list.delete(ACTIVE)
+    db.delete(selected_item[0])
 
 def update_item():
     parts_list.delete(ACTIVE)
@@ -93,6 +108,11 @@ def clear_text():
     customer_entry.delete(0, END)
     retailer_entry.delete(0, END)
     price_entry.delete(0, END)
+
+
+
+#bind select
+parts_list.bind('<<ListboxSelect>>', select_item)
 
 # Buttons
 add_btn = Button(app, text='Add Part', width=12, command=add_item)
