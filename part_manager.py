@@ -1,4 +1,7 @@
 from tkinter import *
+from db import Database
+
+db = Database('store.db')
 
 app = Tk()
 app.title("Part Manager")
@@ -35,6 +38,8 @@ price_label.grid(row=1, column=2, sticky=W)
 price_entry = Entry(app, textvariable=price_text)
 price_entry.grid(row=1, column=3)
 
+#populate data
+
 # Parts List (Listbox)
 parts_list = Listbox(app, height=8, width=50, border=0)
 parts_list.grid(row=3, column=0, columnspan=3, rowspan=6, pady=20, padx=20)
@@ -60,7 +65,12 @@ scrollbar.configure(command=parts_list.yview)
 
 
 
-#functions
+#functionsfiur
+def populate_list():
+    for row in db.view():
+        parts_list.insert(END, row)
+    
+
 def add_item():
     parts_list.insert(END, part_text.get(), customer_text.get(), retailer_text.get(), price_text.get())
 
@@ -90,6 +100,6 @@ update_btn.grid(row=2, column=2)
 clear_btn = Button(app, text='Clear Input', width=12, command=clear_text)
 clear_btn.grid(row=2, column=3)
 
-
+populate_list()
 # start program
 app.mainloop()
